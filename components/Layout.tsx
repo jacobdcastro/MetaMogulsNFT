@@ -9,7 +9,6 @@ const Layout: FC = ({ children }) => {
       <Banner />
       <Nav />
       <main>{children}</main>
-
       <Footer />
     </div>
   );

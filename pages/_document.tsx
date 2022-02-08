@@ -12,17 +12,7 @@ class MyDocument extends Document {
             crossOrigin='anonymous'
           />
           <link
-            href='https://fonts.googleapis.com/css2?family=Titan+One&display=swap'
-            rel='stylesheet'
-          />
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link
-            rel='preconnect'
-            href='https://fonts.gstatic.com'
-            crossOrigin='anonymous'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Titan+One&display=swap'
+            href='https://fonts.googleapis.com/css2?family=Exo:wght@500&family=Titan+One&display=swap'
             rel='stylesheet'
           />
         </Head>
