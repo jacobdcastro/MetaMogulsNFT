@@ -5,10 +5,10 @@ import Nav from './Nav';
 
 const Layout: FC = ({ children }) => {
   return (
-    <div className='bg-slate-400'>
+    <div style={{ backgroundColor: '#92b2bf' }}>
       <Banner />
       <Nav />
-      <main>{children}</main>
+      <main className='px-4'>{children}</main>
       <Footer />
     </div>
   );

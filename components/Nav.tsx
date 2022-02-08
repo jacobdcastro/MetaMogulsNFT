@@ -9,7 +9,7 @@ import Socials from './Socials';
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <nav className=' w-full flex flex-col mt-2'>
+    <nav className=' w-full flex flex-col mt-2 py-2'>
       <div className='flex flex-row justify-between'>
         <Logo height='70px' width='84px' />
 
