@@ -1,14 +1,42 @@
 import { useWeb3 } from '@3rdweb/hooks';
 import { ConnectWallet } from '@3rdweb/react';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 // @ts-ignore
 import DateCountdown from 'react-date-countdown-timer';
 import Countdown from '../components/Countdown';
+import { useMint } from '../hooks/useMint';
+import { BigNumber } from 'ethers';
 
 const MintPage = () => {
   const [count, setCount] = useState(1);
   const { address, disconnectWallet, activeProvider } = useWeb3();
+  const { mintNft, getPublicSaleStatus, getTokenCount } = useMint();
+  const [tokenCount, setTokenCount] = useState('???');
+  const [saleIsOpen, setSaleIsOpen] = useState<boolean | null>(null);
+
+  const handleCount = useCallback(async () => {
+    if (address) {
+      const res = await getTokenCount();
+      setTokenCount(parseInt(res._hex, 16).toString());
+    }
+  }, [address, getTokenCount]);
+
+  const handleOpen = useCallback(async () => {
+    if (address) {
+      const res = await getPublicSaleStatus();
+      setSaleIsOpen(res);
+    }
+  }, [address, getPublicSaleStatus]);
+
+  useEffect(() => {
+    handleCount();
+  }, [address, handleCount]);
+
+  useEffect(() => {
+    handleOpen();
+  }, [address, getPublicSaleStatus, handleCount, handleOpen]);
+
   return (
     <Layout>
       <div className='h-full w-full flex flex-col justify-center items-center'>
@@ -16,7 +44,7 @@ const MintPage = () => {
           Mint a Mogul
         </h1>
 
-        <Countdown />
+        {/* <Countdown /> */}
 
         <div className='w-full max-w-md bg-white p-8 rounded-2xl mb-8 flex flex-col items-center'>
           <ConnectWallet />
@@ -39,7 +67,7 @@ const MintPage = () => {
           <h2 className='font-heading text-4xl text-center'>
             Already Minted:
             <br />
-            0/1111
+            {`${tokenCount}/1111`}
           </h2>
 
           <div className='flex items-center my-2'>
@@ -66,12 +94,21 @@ const MintPage = () => {
 
           <div className='my-4'>
             <button
-              className='p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer'
-              disabled
-              // disabled={!!address}
+              className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:${
+                saleIsOpen ? 'curose-pointer' : 'cursor-not-allowed'
+              }`}
+              disabled={!address}
+              onClick={async () => {
+                if (address) {
+                  if (saleIsOpen) await mintNft(count);
+                }
+              }}
             >
-              {/* {address ? 'Mint Now' : 'Please Connect Wallet First'} */}
-              Minting Soon...
+              {address
+                ? saleIsOpen
+                  ? 'Mint Now'
+                  : 'Minting Starting Soon!'
+                : 'Please Connect Wallet First'}
             </button>
           </div>
         </div>
