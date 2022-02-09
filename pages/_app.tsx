@@ -10,7 +10,7 @@ const connectors = {
   walletconnect: {},
   walletlink: {
     appName: 'MetaMogulsNFT',
-    url: 'metamoguls-nft.vercel.app',
+    url: 'https://metamoguls.art',
     darkMode: false,
   },
 };
