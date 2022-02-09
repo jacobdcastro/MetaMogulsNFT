@@ -18,7 +18,7 @@ const MintPage = () => {
   const handleCount = useCallback(async () => {
     if (address) {
       const res = await getTokenCount();
-      setTokenCount((parseInt(res._hex, 16) + 1).toString());
+      setTokenCount(parseInt(res._hex, 16).toString());
     }
   }, [address, getTokenCount]);
 
