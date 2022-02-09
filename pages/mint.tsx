@@ -74,7 +74,7 @@ const MintPage = () => {
               onClick={async () => {
                 if (address) {
                   console.log('hmm');
-                  await mintPresale();
+                  await mintPresale(count);
                 }
               }}
             >
