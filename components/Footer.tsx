@@ -1,14 +1,12 @@
 import React from 'react';
-import MintLink from './MintLink';
 import Socials from './Socials';
 
 const Footer = () => {
   return (
-    <div className='flex flex-col mt-10'>
-      <img src='/logo.png' />
+    <div className='flex flex-col mt-10 w-full'>
+      <img src='/logo.png' className='w-60 h-auto m-auto' />
       <div>
         <Socials />
-        <MintLink />
       </div>
     </div>
   );
