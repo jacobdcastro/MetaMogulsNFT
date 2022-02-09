@@ -18,9 +18,9 @@ export const useMint = () => {
     return new Contract(CONTRACT_ADDRESS, abi, signer);
   }, [provider]);
 
-  const getPublicSaleStatus = useCallback(() => {
+  const getPublicSaleStatus = useCallback(async () => {
     const contract = getContract();
-    return contract.isPublicSaleActive();
+    return await contract.isPublicSaleActive();
   }, [getContract]);
 
   const getTokenCount = useCallback(async () => {

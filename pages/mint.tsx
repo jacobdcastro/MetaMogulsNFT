@@ -13,6 +13,7 @@ const MintPage = () => {
   const { address, disconnectWallet, activeProvider } = useWeb3();
   const { mintNft, getPublicSaleStatus, getTokenCount } = useMint();
   const [tokenCount, setTokenCount] = useState('???');
+  const [saleIsOpen, setSaleIsOpen] = useState<boolean | null>(null);
 
   const handleCount = useCallback(async () => {
     if (address) {
@@ -21,9 +22,20 @@ const MintPage = () => {
     }
   }, [address, getTokenCount]);
 
+  const handleOpen = useCallback(async () => {
+    if (address) {
+      const res = await getPublicSaleStatus();
+      setSaleIsOpen(res);
+    }
+  }, [address, getPublicSaleStatus]);
+
   useEffect(() => {
     handleCount();
   }, [address, handleCount]);
+
+  useEffect(() => {
+    handleOpen();
+  }, [address, getPublicSaleStatus, handleCount, handleOpen]);
 
   return (
     <Layout>
@@ -82,16 +94,18 @@ const MintPage = () => {
 
           <div className='my-4'>
             <button
-              className='p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer'
+              className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:${
+                saleIsOpen ? 'curose-pointer' : 'cursor-not-allowed'
+              }`}
               disabled={!address}
               onClick={async () => {
                 if (address) {
-                  if (getPublicSaleStatus()) await mintNft(count);
+                  if (saleIsOpen) await mintNft(count);
                 }
               }}
             >
               {address
-                ? getPublicSaleStatus()
+                ? saleIsOpen
                   ? 'Mint Now'
                   : 'Minting Starting Soon!'
                 : 'Please Connect Wallet First'}
