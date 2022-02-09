@@ -1,16 +1,29 @@
 import { useWeb3 } from '@3rdweb/hooks';
 import { ConnectWallet } from '@3rdweb/react';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 // @ts-ignore
 import DateCountdown from 'react-date-countdown-timer';
 import Countdown from '../components/Countdown';
 import { useMint } from '../hooks/useMint';
+import { BigNumber } from 'ethers';
 
 const MintPage = () => {
   const [count, setCount] = useState(1);
   const { address, disconnectWallet, activeProvider } = useWeb3();
-  const { mintPresale } = useMint();
+  const { mintNft, getPublicSaleStatus, getTokenCount } = useMint();
+  const [tokenCount, setTokenCount] = useState('???');
+
+  const handleCount = useCallback(async () => {
+    if (address) {
+      const res = await getTokenCount();
+      setTokenCount((parseInt(res._hex, 16) + 1).toString());
+    }
+  }, [address, getTokenCount]);
+
+  useEffect(() => {
+    handleCount();
+  }, [address, handleCount]);
 
   return (
     <Layout>
@@ -42,7 +55,7 @@ const MintPage = () => {
           <h2 className='font-heading text-4xl text-center'>
             Already Minted:
             <br />
-            0/1111
+            {`${tokenCount}/1111`}
           </h2>
 
           <div className='flex items-center my-2'>
@@ -73,12 +86,15 @@ const MintPage = () => {
               disabled={!address}
               onClick={async () => {
                 if (address) {
-                  console.log('hmm');
-                  await mintPresale(count);
+                  if (getPublicSaleStatus()) await mintNft(count);
                 }
               }}
             >
-              {address ? 'Mint Now' : 'Please Connect Wallet First'}
+              {address
+                ? getPublicSaleStatus()
+                  ? 'Mint Now'
+                  : 'Minting Starting Soon!'
+                : 'Please Connect Wallet First'}
             </button>
           </div>
         </div>
