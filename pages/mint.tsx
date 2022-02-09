@@ -11,7 +11,14 @@ import { BigNumber } from 'ethers';
 const MintPage = () => {
   const [count, setCount] = useState(1);
   const { address, disconnectWallet, activeProvider } = useWeb3();
-  const { mintNft, getPublicSaleStatus, getTokenCount } = useMint();
+  const {
+    mintNft,
+    getPublicSaleStatus,
+    getTokenCount,
+    loading,
+    error,
+    success,
+  } = useMint();
   const [tokenCount, setTokenCount] = useState('???');
   const [saleIsOpen, setSaleIsOpen] = useState<boolean | null>(null);
 
@@ -93,23 +100,37 @@ const MintPage = () => {
           </div>
 
           <div className='my-4'>
-            <button
-              className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:${
-                saleIsOpen ? 'cursor-pointer' : 'cursor-not-allowed'
-              }`}
-              disabled={!address}
-              onClick={async () => {
-                if (address) {
-                  if (saleIsOpen) await mintNft(count);
-                }
-              }}
-            >
-              {address
-                ? saleIsOpen
-                  ? 'Mint Now'
-                  : 'Minting Starting Soon!'
-                : 'Please Connect Wallet First'}
-            </button>
+            {loading ? (
+              <h3 className='font-heading text-3xl text-center'>
+                Minting your Meta Moguls now...
+              </h3>
+            ) : error ? (
+              <h3 className='font-heading text-3xl text-center'>
+                Oops, something went wrong!
+              </h3>
+            ) : success ? (
+              <h3 className='font-heading text-3xl text-center'>
+                You have successfully minted your Meta Moguls!!
+              </h3>
+            ) : (
+              <button
+                className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:${
+                  saleIsOpen ? 'cursor-pointer' : 'cursor-not-allowed'
+                }`}
+                disabled={!address}
+                onClick={async () => {
+                  if (address) {
+                    if (saleIsOpen) await mintNft(count);
+                  }
+                }}
+              >
+                {address
+                  ? saleIsOpen
+                    ? 'Mint Now'
+                    : 'Minting Starting Soon!'
+                  : 'Please Connect Wallet First'}
+              </button>
+            )}
           </div>
         </div>
       </div>

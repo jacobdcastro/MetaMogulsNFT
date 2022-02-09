@@ -11,6 +11,8 @@ const CONTRACT_ADDRESS = '0x5d6685C7BD265204ec9BDE279095CBF478165898';
 
 export const useMint = () => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const { provider, address } = useWeb3();
 
   const getContract = useCallback(() => {
@@ -46,8 +48,19 @@ export const useMint = () => {
       await tx.wait();
       console.log(tx);
       setLoading(false);
-    } catch (error) {}
+      setSuccess(true);
+    } catch (error) {
+      setLoading(false);
+      setError(true);
+    }
   };
 
-  return { mintNft, loading, getPublicSaleStatus, getTokenCount };
+  return {
+    mintNft,
+    loading,
+    getPublicSaleStatus,
+    getTokenCount,
+    error,
+    success,
+  };
 };
