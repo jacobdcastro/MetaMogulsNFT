@@ -67,11 +67,9 @@ const MintPage = () => {
           <div className='my-4'>
             <button
               className='p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer'
-              disabled
-              // disabled={!!address}
+              disabled={!!address}
             >
-              {/* {address ? 'Mint Now' : 'Please Connect Wallet First'} */}
-              Minting Soon...
+              {address ? 'Mint Now' : 'Please Connect Wallet First'}
             </button>
           </div>
         </div>
