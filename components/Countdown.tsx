@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
 
 const endDateTime = new Date('2022-02-09T12:00:00');
