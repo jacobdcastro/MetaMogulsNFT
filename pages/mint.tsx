@@ -5,8 +5,7 @@ import Layout from '../components/Layout';
 
 const MintPage = () => {
   const [count, setCount] = useState(1);
-  const { address, disconnectWallet, activeProvider, provider } = useWeb3();
-  console.log(activeProvider?.isMetaMask);
+  const { address, disconnectWallet, activeProvider } = useWeb3();
   return (
     <Layout>
       <div className='h-full w-full flex flex-col justify-center items-center'>

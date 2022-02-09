@@ -13,7 +13,7 @@ const Layout: FC = ({ children }) => {
         <Banner />
         <Nav />
       </div>
-      <main className='px-4'>{children}</main>
+      <main className='px-4 max-w-5xl mx-auto'>{children}</main>
       <Footer />
     </div>
   );

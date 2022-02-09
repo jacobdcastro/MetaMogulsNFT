@@ -1,6 +1,5 @@
 import React from 'react';
 import FAQSection from '../components/FAQSection';
-import HolderRewardsCard from '../components/HolderRewardsCard';
 import Layout from '../components/Layout';
 import TeamMemberCard from '../components/TeamMemberCard';
 
@@ -10,35 +9,38 @@ const pText = 'font-body text-xl mt-5 drop-shadow-md';
 const HomePage = () => {
   return (
     <Layout>
-      <div className='mt-8 text-white'>
-        <div>
+      <div className='mt-8 text-white flex flex-col md:flex-row-reverse'>
+        <div className=''>
           <img
             src='/example.gif'
             alt='changing nft preview'
             className='w-full'
           />
         </div>
-        <h1 className={hText}>
-          Ideas Can&apos;t
-          <br />
-          Be Boxed!
-        </h1>
-        <p className={pText}>
-          The Meta Moguls are a collection of moguls unboxing ideas on the
-          Ethereum blockchain! Phase 1 mint will be an exclusive supply of 1,111
-          moguls and Phase 2 mint will begin in March! The first generation of
-          moguls are constructed using out of the box items, outfits, boxes,
-          labels, and personalities! The Meta Moguls are here to become the next
-          generation of leaders and entrepreneurs in the metaverse!
-        </p>
+        <div className='md:w-2/3 mr-14'>
+          <h1 className={hText}>
+            Ideas Can&apos;t
+            <br />
+            Be Boxed!
+          </h1>
+          <p className={pText}>
+            The Meta Moguls are a collection of moguls unboxing ideas on the
+            Ethereum blockchain! Phase 1 mint will be an exclusive supply of
+            1,111 moguls and Phase 2 mint will begin in March! The first
+            generation of moguls are constructed using out of the box items,
+            outfits, boxes, labels, and personalities! The Meta Moguls are here
+            to become the next generation of leaders and entrepreneurs in the
+            metaverse!
+          </p>
+        </div>
       </div>
 
       {/* about section */}
-      <div id='about' className='text-white mt-20'>
+      <div id='about' className='text-white mt-20 flex flex-col md:flex-row'>
         <div>
           <img src='/confused_mogul.png' alt='confused mogul nft' />
         </div>
-        <div>
+        <div className='md:w-2/3 ml-14'>
           <h2 className={hText}>Why The Meta Moguls?</h2>
           <p className={pText}>
             Meta Moguls was formed on the principles of community building,
@@ -66,7 +68,7 @@ const HomePage = () => {
       {/* the team */}
       <div id='team' className='text-white mt-14'>
         <h2 className={hText}>The Team!</h2>
-        <div className='mt-5'>
+        <div className='mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5'>
           <TeamMemberCard
             img='/pfps/breyden-nft.jpeg'
             title='Lead Artist'
