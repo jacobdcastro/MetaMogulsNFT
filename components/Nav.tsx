@@ -8,7 +8,7 @@ import Socials from './Socials';
 
 const Menu = ({ setIsOpen }: { setIsOpen: (o: boolean) => void }) => {
   return (
-    <div className='flex flex-col md:flex-row justify-center items-center'>
+    <div className='hidden md:flex flex-col md:flex-row justify-center items-center'>
       <ul className='flex flex-col justify-center items-center font-body text-xl mt-4 text-white md:flex-row md:mt-0'>
         <li
           className='uppercase pt-3 drop-shadow-xl md:mx-3'
@@ -51,7 +51,7 @@ const Nav = () => {
 
         <div className='flex flex-row mr-3'>
           <MintLink />
-          <button className='md:hidden' onClick={() => setIsOpen(!isOpen)}>
+          <button className='md:hidden ml-4' onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? (
               <Image
                 src='/close.png'
