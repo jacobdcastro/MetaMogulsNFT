@@ -1,33 +1,56 @@
-import { providers, Contract, utils } from 'ethers';
+import { providers, utils, BigNumber } from 'ethers';
 import { useWeb3 } from '@3rdweb/hooks';
 import abi from '../config/abi.json';
+import CONFIG from '../config/config.json';
 import { useState } from 'react';
+import Web3EthContract from 'web3-eth-contract';
 
 const CONTRACT_ADDRESS = '0x5d6685C7BD265204ec9BDE279095CBF478165898';
 
 export const useMint = () => {
   const [loading, setLoading] = useState(false);
-  const { provider } = useWeb3();
+  const { provider, address } = useWeb3();
 
   const getContract = () => {
-    const signer = provider?.getSigner();
-    return new Contract(CONTRACT_ADDRESS, abi, signer);
+    // const signer = provider?.getSigner();
+    // @ts-ignore
+    Web3EthContract.setProvider(provider);
+    // @ts-ignore
+    return new Web3EthContract(abi, CONTRACT_ADDRESS);
   };
 
-  console.log('hi', utils.parseUnits('0.05', 'ether'));
-
-  const mintPresale = async () => {
+  const mintPresale = async (mintAmount = 1) => {
     const contract = getContract();
-    console.log(utils.parseEther('0.05'));
-    // const tx = await contract.mint({
-    //   value: utils.parseEther('0.05'),
-    // });
-    // // const tx = await contract.name();
+    let cost = CONFIG.WEI_COST;
+    let gasLimit = CONFIG.GAS_LIMIT;
+    let totalCostWei = cost * mintAmount;
+    let totalGasLimit = gasLimit * mintAmount;
+    console.log('Cost: ', totalCostWei);
+    console.log('Gas limit: ', totalGasLimit);
+    setLoading(true);
 
-    // setLoading(true);
-    // await tx.wait();
-    // console.log(tx);
-    // setLoading(false);
+    console.log({ mintAmount, totalGasLimit, CONTRACT_ADDRESS });
+
+    try {
+      contract.methods
+        .mint(mintAmount)
+        .send({
+          gasLimit: totalGasLimit,
+          to: CONTRACT_ADDRESS,
+          from: address,
+          value: totalCostWei,
+        })
+        .once('error', err => {
+          console.log(err);
+          setLoading(false);
+        })
+        .then(receipt => {
+          console.log(receipt);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // @ts-ignore
