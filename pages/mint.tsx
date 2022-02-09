@@ -95,7 +95,7 @@ const MintPage = () => {
           <div className='my-4'>
             <button
               className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:${
-                saleIsOpen ? 'curose-pointer' : 'cursor-not-allowed'
+                saleIsOpen ? 'cursor-pointer' : 'cursor-not-allowed'
               }`}
               disabled={!address}
               onClick={async () => {
