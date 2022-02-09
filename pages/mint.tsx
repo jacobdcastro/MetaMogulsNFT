@@ -5,10 +5,13 @@ import Layout from '../components/Layout';
 // @ts-ignore
 import DateCountdown from 'react-date-countdown-timer';
 import Countdown from '../components/Countdown';
+import { useMint } from '../hooks/useMint';
 
 const MintPage = () => {
   const [count, setCount] = useState(1);
   const { address, disconnectWallet, activeProvider } = useWeb3();
+  const { mintPresale } = useMint();
+
   return (
     <Layout>
       <div className='h-full w-full flex flex-col justify-center items-center'>
@@ -16,7 +19,7 @@ const MintPage = () => {
           Mint a Mogul
         </h1>
 
-        <Countdown />
+        {/* <Countdown /> */}
 
         <div className='w-full max-w-md bg-white p-8 rounded-2xl mb-8 flex flex-col items-center'>
           <ConnectWallet />
@@ -67,7 +70,13 @@ const MintPage = () => {
           <div className='my-4'>
             <button
               className='p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer'
-              disabled={!!address}
+              disabled={!address}
+              onClick={async () => {
+                if (address) {
+                  console.log('hmm');
+                  await mintPresale();
+                }
+              }}
             >
               {address ? 'Mint Now' : 'Please Connect Wallet First'}
             </button>

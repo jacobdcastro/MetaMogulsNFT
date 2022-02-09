@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0x5d6685C7BD265204ec9BDE279095CBF478165898",
+  "SCAN_LINK": "https://etherscan.io/address/0x5d6685c7bd265204ec9bde279095cbf478165898",
+  "NETWORK": {
+    "NAME": "Ethereum",
+    "SYMBOL": "ETH",
+    "ID": 1
+  },
+  "NFT_NAME": "Meta Moguls",
+  "SYMBOL": "MOGUL",
+  "MAX_SUPPLY": 1111,
+  "WEI_COST": 50000000000000000,
+  "DISPLAY_COST": 0.05,
+  "GAS_LIMIT": 50000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://opensea.io/",
+  "SHOW_BACKGROUND": false
+}
