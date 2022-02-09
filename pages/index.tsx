@@ -40,7 +40,7 @@ const HomePage = () => {
         <div>
           <img src='/confused_mogul.png' alt='confused mogul nft' />
         </div>
-        <div className='md:w-2/3 ml-14'>
+        <div className='md:w-2/3 md:ml-14'>
           <h2 className={hText}>Why The Meta Moguls?</h2>
           <p className={pText}>
             Meta Moguls was formed on the principles of community building,
