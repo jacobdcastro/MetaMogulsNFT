@@ -2,6 +2,9 @@ import { useWeb3 } from '@3rdweb/hooks';
 import { ConnectWallet } from '@3rdweb/react';
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
+// @ts-ignore
+import DateCountdown from 'react-date-countdown-timer';
+import Countdown from '../components/Countdown';
 
 const MintPage = () => {
   const [count, setCount] = useState(1);
@@ -12,6 +15,8 @@ const MintPage = () => {
         <h1 className='font-heading text-5xl pb-6 text-yellow-300 drop-shadow-md'>
           Mint a Mogul
         </h1>
+
+        <Countdown />
 
         <div className='w-full max-w-md bg-white p-8 rounded-2xl mb-8 flex flex-col items-center'>
           <ConnectWallet />
@@ -62,9 +67,11 @@ const MintPage = () => {
           <div className='my-4'>
             <button
               className='p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer'
-              disabled={!!address}
+              disabled
+              // disabled={!!address}
             >
-              {address ? 'Mint Now' : 'Please Connect Wallet First'}
+              {/* {address ? 'Mint Now' : 'Please Connect Wallet First'} */}
+              Minting Soon...
             </button>
           </div>
         </div>

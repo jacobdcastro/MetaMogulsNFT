@@ -167,7 +167,7 @@ const HomePage = () => {
       </div>
 
       {/* FAQ */}
-      <div className='text-white'>
+      <div id='faq' className='text-white'>
         <h2 className={hText}>FAQ</h2>
         <FAQSection
           question='Where did the Idea of Meta Moguls come from?'
