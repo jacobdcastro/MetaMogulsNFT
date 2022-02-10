@@ -32,7 +32,7 @@ export const useMint = () => {
 
   const mintNft = async (mintAmount: number) => {
     const contract = getContract();
-    let cost = CONFIG.PRESALE_WEI_COST;
+    let cost = CONFIG.PUBLIC_WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = cost * mintAmount;
     let totalGasLimit = gasLimit * mintAmount;
