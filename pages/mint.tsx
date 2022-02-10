@@ -81,7 +81,7 @@ const MintPage = () => {
             <button
               className='font-heading text-4xl bg-slate-500 pb-2 px-3 rounded-2xl text-white'
               onClick={() => {
-                if (count > 0) setCount(count - 1);
+                if (count > 1) setCount(count - 1);
               }}
             >
               -
@@ -92,7 +92,7 @@ const MintPage = () => {
             <button
               className='font-heading text-4xl bg-slate-500 pb-2 px-3 rounded-2xl text-white'
               onClick={() => {
-                if (count < 5) setCount(count + 1);
+                if (count < 10) setCount(count + 1);
               }}
             >
               +
