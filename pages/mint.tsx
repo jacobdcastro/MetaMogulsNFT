@@ -86,7 +86,7 @@ const MintPage = () => {
             >
               -
             </button>
-            <h3 className='font-heading text-4xl bg-white rounded-2xl p-5 mx-5 w-20 text-center'>
+            <h3 className='font-heading text-4xl bg-white rounded-2xl p-5 mx-5 w-28 text-center'>
               {count}
             </h3>
             <button
