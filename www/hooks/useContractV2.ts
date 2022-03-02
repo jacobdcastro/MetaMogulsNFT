@@ -10,7 +10,7 @@ import { useCallback, useMemo, useState } from 'react';
 // const CONTRACT_ADDRESS_V2 = '...';
 
 // rinkeby
-const CONTRACT_ADDRESS_V1 = '0x4f7078484812d62e0c256fAdC0748189E501cd29';
+const CONTRACT_ADDRESS_V1 = '0xa11A30d5fa26B82895468FC02cca5b7Af90C3127';
 const CONTRACT_ADDRESS_V2 = '0xA62d85dCFD6dfB3E0fdbdC3355088b91008413a2';
 
 // localhost
