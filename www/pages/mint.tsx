@@ -37,9 +37,9 @@ const MintPage = () => {
           <div className='mr-10'>
             <MintSectionV1 _setV1OwnedTokens={_setV1OwnedTokens} />
           </div>
-          <div>
+          {/* <div>
             <MintSectionV2 _v1OwnedTokens={_v1OwnedTokens} />
-          </div>
+          </div> */}
         </div>
       </div>
     </Layout>
