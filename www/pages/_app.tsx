@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ThirdwebProvider } from '@3rdweb/react';
 
-const supportedChainIds = [1, 4];
+const supportedChainIds = [1, 4, 31337];
 
 const connectors = {
   injected: {},
