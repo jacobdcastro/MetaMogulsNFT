@@ -83,7 +83,6 @@ async function main() {
 
   const tokenIdsToMigrate = [1, 2, 3, 4];
 
-  // for (let i = 0; i < 4; i++) {
   const checkBalanceOf = async (account: 'hh1' | 'hh2') => {
     const address = account === 'hh1' ? hh1.address : hh2.address;
     const a = await ownerContractV1.balanceOf(address);
@@ -113,7 +112,11 @@ async function main() {
   console.log({ migrateTx });
 
   await checkBalanceOf('hh1');
-  // }
+
+  const hi = await hh1ContractV2.getAllMigratedTokens();
+  console.log(hi);
+  const _hi = await hh1ContractV2.tokenHasBeenMigrated();
+  console.log(_hi);
 }
 
 // Call the main function and catch if there is any error

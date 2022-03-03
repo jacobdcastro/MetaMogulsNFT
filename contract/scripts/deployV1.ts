@@ -1,5 +1,4 @@
 const hre = require('hardhat');
-require('dotenv').config({ path: '.env' });
 const contractV1 = require('../artifacts/contracts/MetaMoguls.sol/MetaMoguls.json');
 
 async function mainV1() {
@@ -20,33 +19,19 @@ async function mainV1() {
   await metaMogulsV1.deployed();
   console.log('v1 deployed to:', metaMogulsV1.address);
 
+  //! COMMENT BEFORE DEPLOYMENT
+
   const ownerContract = new hre.ethers.Contract(
     metaMogulsV1.address,
     contractV1.abi,
     owner
   );
-  const hh1Contract = new hre.ethers.Contract(
-    metaMogulsV1.address,
-    contractV1.abi,
-    hh1
-  );
-  const hh2Contract = new hre.ethers.Contract(
-    metaMogulsV1.address,
-    contractV1.abi,
-    hh2
-  );
 
   // mint 4 NFTs to hh1
-  const hh1Tx = await hh1Contract.mint(4, {
+  const hh1Tx = await ownerContract.mint(4, {
     value: (60000000000000000 * 4).toString(),
   });
   await hh1Tx.wait();
-
-  // mint 10 NFTs to hh1
-  const hh2Tx = await hh2Contract.mint(10, {
-    value: (60000000000000000 * 10).toString(),
-  });
-  await hh2Tx.wait();
 
   // close public sale
   const ownerTx = await ownerContract.setIsPublicSaleActive(false);
