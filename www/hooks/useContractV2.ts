@@ -11,7 +11,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 // rinkeby
 const CONTRACT_ADDRESS_V1 = '0xa11A30d5fa26B82895468FC02cca5b7Af90C3127';
-const CONTRACT_ADDRESS_V2 = '0x05A1B29454584a25Af8E1f005b99D16a8C5b34F1';
+const CONTRACT_ADDRESS_V2 = '0xfed690EB55D92568F68466175a6331a4706a22e7';
 
 // localhost
 // const CONTRACT_ADDRESS_V1 = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
@@ -47,7 +47,7 @@ export const useContractV2 = () => {
 
   const getTotalTokenCount = useCallback(async () => {
     const contractV2 = getContractV2();
-    return await contractV2.getLastTokenId();
+    return await contractV2.getCurrentMintedSupply();
   }, [getContractV2]);
 
   const getTokenBalanceOfAddressV2 = useCallback(
