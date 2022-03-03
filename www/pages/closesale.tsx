@@ -20,7 +20,7 @@ const CloseSalePage = () => {
     if (address) {
       const _res = await getPublicSaleStatus();
       const res = await getAllowListSaleStatus();
-      if (_res && res) setSaleIsOpen(true);
+      if (_res || res) setSaleIsOpen(true);
       else setSaleIsOpen(false);
     } else {
       setSaleIsOpen(false);
