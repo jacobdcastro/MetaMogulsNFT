@@ -6,12 +6,12 @@ import CONFIG from '../config/config.json';
 import { useCallback, useMemo, useState } from 'react';
 
 // mainnet
-// const CONTRACT_ADDRESS_V1 = '0x5d6685C7BD265204ec9BDE279095CBF478165898';
-// const CONTRACT_ADDRESS_V2 = '...';
+const CONTRACT_ADDRESS_V1 = '0x5d6685C7BD265204ec9BDE279095CBF478165898';
+const CONTRACT_ADDRESS_V2 = '0x490241c095c83720133EFb32358C1A8059C9DAAB';
 
 // rinkeby
-const CONTRACT_ADDRESS_V1 = '0xa11A30d5fa26B82895468FC02cca5b7Af90C3127';
-const CONTRACT_ADDRESS_V2 = '0xfed690EB55D92568F68466175a6331a4706a22e7';
+// const CONTRACT_ADDRESS_V1 = '0xcFc9B95f2678D38eF3BB56CA148c1655A970E037';
+// const CONTRACT_ADDRESS_V2 = '0xB752371A0C4F53da11EFcc7F7771Ad7A5A4b5d51';
 
 // localhost
 // const CONTRACT_ADDRESS_V1 = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
@@ -27,6 +27,8 @@ export const useContractV2 = () => {
   const [mintError, setMintError] = useState(false);
   const [migrateError, setMigrateError] = useState(false);
   const [approvalError, setApprovalError] = useState(false);
+
+  const [migrationTxHash, setMigrationTxHash] = useState<string | null>();
 
   const { provider, address } = useWeb3();
 
@@ -114,6 +116,7 @@ export const useContractV2 = () => {
     try {
       setMigrateLoading(true);
       const tx = await contractV2.claimAll(tokenIds);
+      setMigrationTxHash(tx.hash);
       await tx.wait();
       console.log(tx);
       setMigrateLoading(false);
@@ -142,5 +145,6 @@ export const useContractV2 = () => {
     getTotalTokenCount,
     getTokenBalanceOfAddressV2,
     getIsApprovedForAll,
+    migrationTxHash,
   };
 };

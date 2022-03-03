@@ -18,15 +18,15 @@ import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "hardhat/console.sol";
 
-contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
+contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard, Pausable {
     using Strings for uint256;
 
     string private baseURI;
     string public verificationHash;
-    uint256 public MAX_NFTs_PER_WALLET = 10;
     uint256 public maxNFTs;
     uint256 public PUBLIC_SALE_PRICE = 0.06 ether;
     bool public isPublicSaleActive;
@@ -38,21 +38,14 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
     uint256 public v1MintedSupply;
 
     // v2
-    mapping(uint256 => bool) public migratedTokens;
-    mapping(address => uint256[]) public userOwnedTokens;
+    uint256[] public allMigratedTokens;
+    mapping(uint256 => bool) public migratedTokensById;
+    uint256[] private reserveTokenIdsMinted;
 
     // ============ ACCESS CONTROL/Function MODIFIERS ============
 
     modifier publicSaleActive() {
         require(isPublicSaleActive, "Public sale is not open");
-        _;
-    }
-
-    modifier maxNFTsPerWallet(uint256 numberOfTokens) {
-        require(
-            balanceOf(msg.sender) + numberOfTokens <= MAX_NFTs_PER_WALLET,
-            "Max NFTs to mint is ten"
-        );
         _;
     }
 
@@ -78,7 +71,8 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
         bool _isPublicSaleActive,
         bool _REVEAL,
         address _oldContract,
-        uint256 _currentSupply
+        uint256 _currentSupply,
+        uint256 _initialReserveCount
     ) ERC721("Meta Moguls", "MOGUL") {
         maxNFTs = _maxNFTs1;
         baseURI = _baseURI;
@@ -87,8 +81,25 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
         currentSupply = _currentSupply;
         v1MintedSupply = _currentSupply;
 
+        // set v1 contract address
         if (_oldContract != address(0)) {
             oldContract = IERC721(_oldContract);
+        }
+
+        // mint reserved NFTs to team wallet for contests, etc.
+        for (uint256 i = 1; i <= _initialReserveCount; i++) {
+            if (i <= 5) {
+                //first, mint the final 5 tokenIds reserved (1107-1111)
+                uint256 tokenIdToMint = maxNFTs - (i - 1);
+                _safeMint(msg.sender, tokenIdToMint);
+                reserveTokenIdsMinted.push(tokenIdToMint);
+            } else {
+                // second, mint the next available 55 tokenIds
+                uint256 tokenIdToMint = getNextTokenId();
+                _safeMint(msg.sender, tokenIdToMint);
+                reserveTokenIdsMinted.push(tokenIdToMint);
+            }
+            incrementCurrentSupply();
         }
     }
 
@@ -99,6 +110,27 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
     }
 
     function getLastTokenId() external view returns (uint256) {
+        // minus 5 to compensate for reserved tokenIds 1107-1111
+        return currentSupply - 5;
+    }
+
+    function getAllMigratedTokens() public view returns (uint256[] memory) {
+        return allMigratedTokens;
+    }
+
+    function tokenHasBeenMigrated(uint256 tokenId) public view returns (bool) {
+        require(
+            tokenId <= v1MintedSupply,
+            "Cannot check migration status of v2 NFT"
+        );
+        return migratedTokensById[tokenId];
+    }
+
+    function getReserveTokenIdsMinted() public view returns (uint256[] memory) {
+        return reserveTokenIdsMinted;
+    }
+
+    function getCurrentMintedSupply() public view returns (uint256) {
         return currentSupply;
     }
 
@@ -106,11 +138,13 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
 
     function getNextTokenId() private view returns (uint256) {
         require(currentSupply < maxNFTs, "All NFTs have been minted");
-        return currentSupply + 1;
+        // minus 5 to compensate for reserved tokenIds 1107-1111
+        return (currentSupply - 5) + 1;
     }
 
     // ============ PRIVATE WRITE FUNCTIONS ============
     function incrementCurrentSupply() private {
+        require(currentSupply < maxNFTs, "All NFTs have been minted");
         currentSupply++;
     }
 
@@ -123,28 +157,14 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
         isCorrectPayment(PUBLIC_SALE_PRICE, numberOfTokens)
         publicSaleActive
         canMintNFTs(numberOfTokens)
-        maxNFTsPerWallet(numberOfTokens)
+        whenNotPaused
     {
         for (uint256 i = 0; i < numberOfTokens; i++) {
             uint256 tokenIdToMint = getNextTokenId();
-            // userOwnedTokens[msg.sender].push(getNextTokenId());
             _safeMint(msg.sender, tokenIdToMint);
-            migratedTokens[tokenIdToMint] = true;
             incrementCurrentSupply();
         }
     }
-
-    // function transferFrom(
-    //     address _from,
-    //     address _to,
-    //     uint256 _token
-    // ) public {
-    //     require(
-    //         owner == msg.sender ||
-    //             allowance[_tokenId] == msg.sender ||
-    //             authorised[owner][msg.sender]
-    //     );
-    // }
 
     // ============ V2 MIGRATION FUNCTIONS ============
 
@@ -162,7 +182,7 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
         }
     }
 
-    function claim(uint256 tokenId) external nonReentrant {
+    function claim(uint256 tokenId) external nonReentrant whenNotPaused {
         // require(!claimed[msg.sender], "NFT already claimed by this wallet");
         if (_ownsOldToken(msg.sender, tokenId)) {
             oldContract.transferFrom(msg.sender, address(this), tokenId);
@@ -171,7 +191,11 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
         }
     }
 
-    function claimAll(uint256[] memory ownedTokens) external nonReentrant {
+    function claimAll(uint256[] memory ownedTokens)
+        external
+        nonReentrant
+        whenNotPaused
+    {
         uint256 length = ownedTokens.length; // gas saving
         console.log("ownedTokens.length", length);
         for (uint256 i; i < length; i++) {
@@ -189,7 +213,27 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
                     tokenIdToMint
                 );
                 _safeMint(msg.sender, tokenIdToMint);
+                allMigratedTokens.push(tokenIdToMint);
+                migratedTokensById[tokenIdToMint] = true;
             }
+        }
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(_exists(tokenId), "Nonexistent token");
+        if (REVEAL) {
+            return
+                string(
+                    abi.encodePacked(baseURI, "/", tokenId.toString(), ".json")
+                );
+        } else {
+            return baseURI;
         }
     }
 
@@ -201,13 +245,6 @@ contract MetaMogulsV2 is ERC721, Ownable, ReentrancyGuard {
 
     function setMaxNFTsInTOTALCollection(uint256 _maxNFTs2) external onlyOwner {
         maxNFTs = _maxNFTs2;
-    }
-
-    function setMAX_NFTs_PER_WALLET(uint256 _MAX_NFTs_PER_WALLET)
-        external
-        onlyOwner
-    {
-        MAX_NFTs_PER_WALLET = _MAX_NFTs_PER_WALLET;
     }
 
     function setPUBLIC_SALE_PRICEinEther(uint256 _PUBLIC_SALE_PRICE)
