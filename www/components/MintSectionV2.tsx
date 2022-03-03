@@ -157,7 +157,7 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               : migrateSuccess
               ? "You've successfully migrated to the new contract!"
               : `You own ${_v1OwnedTokens.length} NFT${
-                  _v1OwnedTokens.length > 1 && 's'
+                  _v1OwnedTokens.length > 1 ? 's' : ''
                 } from the V1 contract`}
           </h3>
           <div>
