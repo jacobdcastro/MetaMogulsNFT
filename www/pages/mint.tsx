@@ -4,10 +4,25 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import MintSectionV1 from '../components/MintSectionV1';
 import MintSectionV2 from '../components/MintSectionV2';
+import { useContractV1 } from '../hooks';
 
 const MintPage = () => {
   const { address, disconnectWallet, activeProvider } = useWeb3();
-  const [_v1OwnedTokens, _setV1OwnedTokens] = useState([]);
+  const [_v1OwnedTokens, _setV1OwnedTokens] = useState<number[]>([]);
+
+  const { getAllTokensOfAddressV1 } = useContractV1();
+
+  const handleGetOwnedTokens = useCallback(async () => {
+    if (address) {
+      const tokens = await getAllTokensOfAddressV1(address);
+      _setV1OwnedTokens(tokens);
+      console.log('V1', tokens);
+    }
+  }, [address, getAllTokensOfAddressV1]);
+
+  useEffect(() => {
+    handleGetOwnedTokens();
+  }, [address, handleGetOwnedTokens]);
 
   return (
     <Layout>
@@ -34,12 +49,12 @@ const MintPage = () => {
         </div>
 
         <div className='flex'>
-          <div className='mr-10'>
+          {/* <div className='mr-10'>
             <MintSectionV1 _setV1OwnedTokens={_setV1OwnedTokens} />
-          </div>
-          {/* <div>
-            <MintSectionV2 _v1OwnedTokens={_v1OwnedTokens} />
           </div> */}
+          <div>
+            <MintSectionV2 _v1OwnedTokens={_v1OwnedTokens} />
+          </div>
         </div>
       </div>
     </Layout>

@@ -8,7 +8,7 @@ import { useCallback, useMemo, useState } from 'react';
 const CONTRACT_ADDRESS_V1 = '0x5d6685C7BD265204ec9BDE279095CBF478165898';
 
 // rinkeby
-// const CONTRACT_ADDRESS_V1 = '0x9aA645bd65acE566C6414d15291D16a3753A4c9E';
+// const CONTRACT_ADDRESS_V1 = '0xcFc9B95f2678D38eF3BB56CA148c1655A970E037';
 
 // localhost
 // const CONTRACT_ADDRESS_V1 = '0x5FbDB2315678afecb367f032d93F642f64180aa3';
@@ -24,7 +24,7 @@ export const useContractV1 = () => {
 
   const getContractV1 = useCallback(() => {
     const signer = provider?.getSigner();
-    return new Contract(CONTRACT_ADDRESS_V1, abi, signer);
+    return new Contract(CONTRACT_ADDRESS_V1, abi.abi, signer);
   }, [provider]);
 
   const getPublicSaleStatus = useCallback(async () => {

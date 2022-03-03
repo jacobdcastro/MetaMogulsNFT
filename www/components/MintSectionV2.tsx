@@ -23,6 +23,7 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
     approvalLoading,
     approvalSuccess,
     getIsApprovedForAll,
+    migrationTxHash,
   } = useContractV2();
 
   const [tokenCountV2, setTokenCountV2] = useState('???');
@@ -155,7 +156,9 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               ? 'Oops, something went wrong migrating!'
               : migrateSuccess
               ? "You've successfully migrated to the new contract!"
-              : `You own ${v2TokenBalance} NFTs on the V2 contract`}
+              : `You own ${_v1OwnedTokens.length} NFT${
+                  _v1OwnedTokens.length > 1 && 's'
+                } from the V1 contract`}
           </h3>
           <div>
             <h4 className='text-center mt-5 mb-2'>
@@ -178,6 +181,8 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               <h4>Successfully migrated!</h4>
             ) : migrateError ? (
               <h4>Hmm... something went wrong. Please reach out on discord!</h4>
+            ) : approvalLoading ? (
+              <h4>Waiting for approval</h4>
             ) : (
               <button
                 className={`p-5 bg-red-600 rounded-2xl text-white font-heading hover:cursor-pointer`}
@@ -187,6 +192,16 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               </button>
             )}
           </div>
+          {migrationTxHash && (
+            <a
+              href={`https://etherscan.io/tx/${migrationTxHash}`}
+              target='_blank'
+              rel='noreferrer'
+              className='underline'
+            >
+              View txn on Etherscan
+            </a>
+          )}
         </div>
       )}
     </>
