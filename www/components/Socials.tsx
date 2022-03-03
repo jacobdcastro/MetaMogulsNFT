@@ -10,7 +10,7 @@ const Socials = () => {
         rel='noreferrer'
       >
         <Image
-          className='mx-6'
+          className='mx-10 flex-grow-0'
           src='/discord.png'
           height='50px'
           width='50px'
@@ -23,11 +23,24 @@ const Socials = () => {
         rel='noreferrer'
       >
         <Image
-          className='mx-6'
+          className='mx-10 flex-grow-0'
           src='/twitter.png'
           height='50px'
           width='50px'
           alt='twitter icon'
+        />
+      </a>
+      <a
+        href='https://opensea.io/collection/meta-moguls-genesis'
+        target='_blank'
+        rel='noreferrer'
+      >
+        <Image
+          className='mx-10 flex-grow-0'
+          src='/opensea.png'
+          height='50px'
+          width='50px'
+          alt='opensea icon'
         />
       </a>
     </div>
