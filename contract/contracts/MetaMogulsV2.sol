@@ -1,8 +1,3 @@
-/**
- *Submitted for verification at Etherscan.io on 2022-02-07
- */
-// File: MetaMogulsV2.sol
-
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
