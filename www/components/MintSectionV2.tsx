@@ -72,15 +72,15 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
 
   return (
     <>
-      <h1 className='font-heading text-4xl text-center'>V2</h1>
+      {/* <h1 className='font-heading text-4xl text-center'>V2</h1> */}
       <div className='w-full max-w-md bg-yellow-300 p-8 rounded-2xl flex flex-col items-center'>
         <h2 className='font-heading text-4xl text-center'>
-          Already Minted:
+          Total Moguls Minted:
           <br />
-          {`${tokenCountV2}/1111`}
+          <span>1019</span>
         </h2>
 
-        <div className='flex items-center my-2'>
+        {/* <div className='flex items-center my-2'>
           <button
             className='font-heading text-4xl bg-slate-500 pb-2 px-3 rounded-2xl text-white'
             onClick={() => {
@@ -100,9 +100,9 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
           >
             +
           </button>
-        </div>
+        </div> */}
 
-        <div className='my-4'>
+        {/* <div className='my-4'>
           {mintLoading ? (
             <h3 className='font-heading text-3xl text-center'>
               Minting your Meta Moguls now...
@@ -145,9 +145,9 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               {address ? 'Mint Now' : 'Please Connect Wallet First'}
             </button>
           )}
-        </div>
+        </div> */}
       </div>
-      {_v1OwnedTokens.length > 0 && (
+      {_v1OwnedTokens.length > 0 ? (
         <div className='w-full max-w-md bg-yellow-300 p-8 rounded-2xl flex flex-col items-center mt-8 font-heading'>
           <h3>
             {migrateLoading
@@ -202,6 +202,15 @@ const MintSectionV2 = ({ _v1OwnedTokens }: { _v1OwnedTokens: number[] }) => {
               View txn on Etherscan
             </a>
           )}
+        </div>
+      ) : (
+        <div className='mx-auto mt-6'>
+          <h1 className='font-heading text-4xl text-center'>
+            Trying to migrate V1 NFTs?
+          </h1>
+          <p className='font-body text-xl mt-5 drop-shadow-md text-center'>
+            Please connect the wallet which owns the V1 NFTs to migrate!
+          </p>
         </div>
       )}
     </>

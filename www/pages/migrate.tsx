@@ -6,7 +6,7 @@ import MintSectionV1 from '../components/MintSectionV1';
 import MintSectionV2 from '../components/MintSectionV2';
 import { useContractV1 } from '../hooks';
 
-const MintPage = () => {
+const MigratePage = () => {
   const { address, disconnectWallet, activeProvider } = useWeb3();
   const [_v1OwnedTokens, _setV1OwnedTokens] = useState<number[]>([]);
 
@@ -61,4 +61,4 @@ const MintPage = () => {
   );
 };
 
-export default MintPage;
+export default MigratePage;
