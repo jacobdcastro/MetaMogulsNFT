@@ -25,12 +25,11 @@ const HomePage = () => {
           </h1>
           <p className={pText}>
             The Meta Moguls are a collection of moguls unboxing ideas on the
-            Ethereum blockchain! Phase 1 mint will be an exclusive supply of
-            1,111 moguls and Phase 2 mint will begin in March! The first
-            generation of moguls are constructed using out of the box items,
-            outfits, boxes, labels, and personalities! The Meta Moguls are here
-            to become the next generation of leaders and entrepreneurs in the
-            metaverse!
+            Ethereum blockchain! Mint is an exclusive supply of 1,111 moguls!
+            The first generation of moguls are constructed using out of the box
+            items, outfits, boxes, labels, and personalities! The Meta Moguls
+            are here to become the next generation of leaders and entrepreneurs
+            in the metaverse!
           </p>
         </div>
       </div>
@@ -53,17 +52,17 @@ const HomePage = () => {
             gives holders of the NFT the necessary resources to learn, earn, and
             build their own empires. Not only does one Meta Mogul NFT provide a
             cool pfp and 1,111 new friends, but also a ticket into future IRL
-            events, exclusive merch, DAO, and $MOGUL token! This is all detailed
-            in V1 of our quarterly roadmap! Ready to be the next mogul?
+            events, exclusive merch, and the DAO! This is all detailed in V1 of
+            our quarterly roadmap! Ready to be the next mogul?
           </p>
         </div>
       </div>
 
-      {/* roadmap */}
-      <div id='roadmap' className='text-white mt-14'>
+      {/* roadmap - REMOVED UPON REQUEST */}
+      {/* <div id='roadmap' className='text-white mt-14'>
         <h2 className={hText}>Roadmap!</h2>
         <img className='mt-10' src='/roadmap.png' alt='meta moguls roadmap' />
-      </div>
+      </div> */}
 
       {/* the team */}
       <div id='team' className='text-white mt-14'>
@@ -125,46 +124,10 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div>
+      {/* holder rewards - REMOVED UPON REQUEST */}
+      {/* <div>
         <img src='holder-rewards.png' alt='holder rewards' />
-        {/* TODO */}
-        {/* <HolderRewardsCard
-          img='/hold1.png'
-          count='1'
-          rewards={[
-            'Exclusive Chat Discord',
-            'Whitelist for Phase 2',
-            '20% off merch.',
-          ]}
-        />
-        <HolderRewardsCard
-          img='/hold3.png'
-          count='3'
-          rewards={[
-            'Access to free live trading program.',
-            'Exclusive alpha discord chat.',
-            '50% off merch',
-          ]}
-        />
-        <HolderRewardsCard
-          img='/hold5.png'
-          count='5'
-          rewards={[
-            'VIP Access to IRL social events',
-            'Enter raffles for free flights to select IRL events.',
-            'Free merch',
-          ]}
-        />
-        <HolderRewardsCard
-          img='/hold10.png'
-          count='10+'
-          rewards={[
-            'Recieve Omega Mogul access',
-            'Free Airdrop of Moguls Phase 2',
-            '1 on 1 monthly biz consultation',
-          ]}
-        /> */}
-      </div>
+      </div> */}
 
       {/* FAQ */}
       <div id='faq' className='text-white'>
