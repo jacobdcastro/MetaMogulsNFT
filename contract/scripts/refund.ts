@@ -91,12 +91,7 @@ let totalEthSent = 0;
 
 async function refund() {
   const [owner] = await hre.ethers.getSigners();
-  const fullData = getAllTxnsByAddress();
-
-  // may have skipped #17, #77, #158, #219
-  const numberToStartFrom = 219;
-
-  const data = fullData.slice(numberToStartFrom);
+  const data = getAllTxnsByAddress();
 
   // console.log('original list length:  ', fullData.length);
   // console.log('new list length:       ', data.length);
@@ -112,11 +107,7 @@ async function refund() {
     _index: number
   ) => {
     const amountEth = roundNumberTo(amountToRefundEth, 9);
-    console.log(
-      `|| ================= TX #${
-        _index + 1 + numberToStartFrom
-      } =================`
-    );
+    console.log(`|| ================= TX #${_index + 1} =================`);
     console.log(`|| Sending ${amountEth} ETH to ${address}...`);
     const sendRefundTx = await owner.sendTransaction({
       to: address,
